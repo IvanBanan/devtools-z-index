@@ -37,11 +37,15 @@ body {
 .rankingTableItem {
 }
   .rankingTableItem-zIndex,
-  .rankingTableItem-element {
+  .rankingTableItem-element,
+  .rankingTableItem-parent  {
     padding: 0.2em 0.4em;
   }
+  .rankingTableItem-num {
+    /*width: 24px;*/
+  }
   .rankingTableItem-zIndex {
-    width: 60px;
+    /*width: 60px;*/
   }
   .rankingTableItem-selector:hover {
     cursor: pointer;
