@@ -4,3 +4,6 @@
 /node_modules/
 /extension.zip
 /npm-debug.log
+
+# IDE #
+.idea/
