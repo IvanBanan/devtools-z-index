@@ -4,7 +4,10 @@ class ZRankingTableUI {
     this._onClickListener = (event) => {
       const elSelector = event.target.closest('[data-selector]');
       if (elSelector) {
-        const selector = elSelector.getAttribute('data-selector') + '[zIndex-guid="' + elSelector.getAttribute('uuid-element') + '"]';
+        const selector = {
+          'selector': elSelector.getAttribute('data-selector'),
+          'zIndexGuid': elSelector.getAttribute('uuid-element')
+        };
         if (typeof this.onSelect === 'function') {
           this.onSelect(selector);
         }
@@ -73,14 +76,14 @@ class ZRankingTableUI {
 
 ZRankingTableUI.buildRanking = (d = document) => {
   const ranking = Array.from(d.querySelectorAll('*'))
-  .map((el, arr) => { 
-    if (!el.getAttribute('zIndex-guid')){
-      el.setAttribute('zIndex-guid', guid());
+  .map((el, arr) => {
+    if (!el.zIndexGuid){
+      el.zIndexGuid = guid();
     }
     return {
       classNames: Array.from(el.classList),
       id: el.id,
-      zIndexGuid: el.getAttribute('zIndex-guid'),
+      zIndexGuid: el.zIndexGuid,
       tagName: el.tagName.toLowerCase(),
       zIndex: Number(getComputedStyle(el).zIndex),
       zCont: zContext(el)
@@ -207,9 +210,9 @@ ZRankingTableUI.buildRanking = (d = document) => {
       if (buffPC.nodeName !== 'HTML'){
         relevant += 1;
         relevant = getRelevant(buffPC, relevant);
-      } 
+      }
       return relevant;
-        
+
     };
     if( el && el.nodeType === 1 ) {
       var closest = getClosestStackingContext( el );
@@ -231,7 +234,7 @@ ZRankingTableUI.buildRanking = (d = document) => {
         createsStackingContext: createsStackingContext,
         createsStackingContextReason: reason,
         parentStackingContext: generateSelector( parentContext ),
-        parentStackingContextGUID: parentContext.getAttribute('zIndex-guid'),
+        parentStackingContextGUID: parentContext.zIndexGuid,
         parentZIndex: parentComputedStyle.zIndex !== 'auto' ? parseInt( parentComputedStyle.zIndex, 10 ) : parentComputedStyle.zIndex,
         'z-index': computedStyle.zIndex !== 'auto' ? parseInt( computedStyle.zIndex, 10 ) : computedStyle.zIndex,
         relevant: relevant

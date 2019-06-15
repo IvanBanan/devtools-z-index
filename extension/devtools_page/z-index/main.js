@@ -29,7 +29,7 @@
   }
 
   function selectElement (selector) {
-    const code = `inspect(document.querySelector('${selector}'));`;
+    const code = `inspect((Array.from(document.querySelectorAll('${selector.selector}'))).find(el => el.zIndexGuid === '${selector.zIndexGuid}'))`;
     executeScript(code);
   }
 
