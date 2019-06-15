@@ -2,7 +2,7 @@
 
 (() => {
   function sendMessage (type) {
-    browser.runtime.sendMessage({ type });
+    chrome.runtime.sendMessage({ type });
   }
 
   async function createSidebarPane (title) {
@@ -14,13 +14,13 @@
     if (sidebarAvailable) {
       pane = await new Promise((resolve) => {
         // seems polyfill does not support this?
-        browser.devtools.panels.elements.createSidebarPane(title, resolve);
+        chrome.devtools.panels.elements.createSidebarPane(title, resolve);
       });
       // Chrome has `setPage()` 🙂
       pane.setPage(htmlPath);
     } else {
       // Firefox does not have `setPage()` so... 😢
-      pane = browser.devtools.panels.create(title, '', htmlPath);
+      pane = chrome.devtools.panels.create(title, '', htmlPath);
     }
 
     return pane;
@@ -30,10 +30,11 @@
     const pane = await createSidebarPane('z-index');
     pane.onShown.addListener(() => sendMessage('updateTable'));
     pane.onHidden.addListener(() => sendMessage('clearTable'));
-    browser.devtools.panels.elements.onSelectionChanged.addListener(() => {
+    chrome.devtools.panels.elements.onSelectionChanged.addListener(() => {
       sendMessage('updateTable');
     });
   }
 
   start();
+
 })();

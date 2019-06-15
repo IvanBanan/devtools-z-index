@@ -40,7 +40,7 @@
       selectElement(selector);
     };
 
-    browser.runtime.onMessage.addListener(({ type }) => {
+    chrome.runtime.onMessage.addListener(({ type }) => {
       if (type === 'updateTable') {
         updateTable();
       } else if (type === 'clearTable') {
